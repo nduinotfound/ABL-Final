@@ -21,7 +21,7 @@ pipeline {
                     
                     // Daftar folder service - PASTIKAN NAMA FOLDER DI REPO SAMA PERSIS
                     def services = ['buku', 'anggota', 'peminjaman', 'pengembalian', 'rabbitmq',
-                        'api-gateaway', 'product', 'pelanggan', 'order']
+                                    'api-gateaway', 'product', 'pelanggan', 'order']
                     
                     for (service in services) {
                         echo "-------------------------------------------"
@@ -50,7 +50,6 @@ pipeline {
                     
                     services.each { dirName, imageName ->
                         echo "Building Docker Image: ${imageName}"
-                        // Build image berdasarkan folder masing-masing
                         sh "docker build -t ${imageName}:${DOCKER_IMAGE_TAG} ./${dirName}"
                     }
                 }
@@ -66,6 +65,7 @@ pipeline {
                 }
             }
         }
+    } // Penutup blok STAGES yang tadi hilang
 
     post {
         always {
