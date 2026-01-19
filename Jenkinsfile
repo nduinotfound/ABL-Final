@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // Nama image disesuaikan dengan docker-compose utama kamu
         DOCKER_IMAGE_TAG = "latest"
     }
 
@@ -17,16 +16,15 @@ pipeline {
         stage('Build & Test') {
             steps {
                 script {
-                    // Gunakan konfigurasi Maven dari Global Tool Configuration (Manage Jenkins)
-                    // Pastikan di Global Tool Configuration, Maven diberi nama 'maven-3'
-                    withMaven(maven: 'maven-3') {
-                        def services = ['buku', 'anggota', 'peminjaman', 'pengembalian', 'rabbitmq']
-                        for (service in services) {
-                            echo "Building service: ${service}"
-                            dir(service) {
-                                // Menambahkan flags untuk mempercepat build
-                                sh 'mvn clean package -DskipTests'
-                            }
+                    // Mendefinisikan lokasi Maven secara manual dari Global Tool Configuration
+                    def mvnHome = tool 'maven-3' 
+                    
+                    def services = ['buku', 'anggota', 'peminjaman', 'pengembalian', 'rabbitmq']
+                    for (service in services) {
+                        echo "Building service: ${service}"
+                        dir(service) {
+                            // Menjalankan Maven menggunakan path absolut hasil dari 'tool'
+                            sh "${mvnHome}/bin/mvn clean package -DskipTests"
                         }
                     }
                 }
@@ -36,7 +34,6 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
-                    // Build image sesuai dengan nama di docker-compose.yml
                     def services = [
                         'buku': 'library-buku',
                         'anggota': 'library-anggota',
@@ -57,7 +54,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to Docker Containers...'
-                    // Menggunakan file docker-compose.yml utama agar infrastruktur ELK dan Monitoring tetap jalan
+                    // Menjalankan docker-compose untuk mengupdate container
                     sh 'docker-compose up -d'
                 }
             }
