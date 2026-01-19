@@ -21,11 +21,11 @@ pipeline {
         stage('Docker Build & Deploy') {
             steps {
                 script {
-                    echo 'Cleaning up and force deploying...'
-                    // down menghapus semua yang lama, up menyalakan yang baru
-                    // ini cara paling ampuh untuk menghindari error CONFLICT
-                    sh 'docker-compose down || true'
-                    sh 'docker-compose up -d --build --remove-orphans --force-recreate'
+                    echo 'Force deploying using absolute path...'
+                    // Kita gunakan path lengkap /usr/local/bin/docker-compose 
+                    // supaya tidak ada lagi error 'not found'
+                    sh '/usr/local/bin/docker-compose down || true'
+                    sh '/usr/local/bin/docker-compose up -d --build --remove-orphans --force-recreate'
                 }
             }
         }
