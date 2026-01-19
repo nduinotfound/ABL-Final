@@ -6,35 +6,55 @@ spring:
     name: API-GATEWAY
   cloud:
     gateway:
-      routes: # Langsung di bawah gateway
-        - id: PRODUK-SERVICE
-          uri: lb://PRODUK
-          predicates:
-            - Path=/api/produk/**
-        - id: PELANGGAN-SERVICE
-          uri: lb://PELANGGAN
-          predicates:
-            - Path=/api/pelanggan/**
-        - id: ORDER-SERVICE
-          uri: lb://ORDER
-          predicates:
-            - Path=/api/order/**
+      routes:
         - id: BUKU-SERVICE
           uri: lb://BUKU
           predicates:
             - Path=/api/buku/**
+          filters:
+            - StripPrefix=1 # Ini akan membuang '/api' sehingga yang dikirim ke service adalah '/buku/all'
+
         - id: ANGGOTA-SERVICE
           uri: lb://ANGGOTA
           predicates:
             - Path=/api/anggota/**
+          filters:
+            - StripPrefix=1
+
+        - id: PRODUK-SERVICE
+          uri: lb://PRODUK
+          predicates:
+            - Path=/api/produk/**
+          filters:
+            - StripPrefix=1
+
+        - id: PELANGGAN-SERVICE
+          uri: lb://PELANGGAN
+          predicates:
+            - Path=/api/pelanggan/**
+          filters:
+            - StripPrefix=1
+
+        - id: ORDER-SERVICE
+          uri: lb://ORDER
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+
         - id: PEMINJAMAN-SERVICE
           uri: lb://PEMINJAMAN
           predicates:
             - Path=/api/peminjaman/**
+          filters:
+            - StripPrefix=1
+
         - id: PENGEMBALIAN-SERVICE
           uri: lb://PENGEMBALIAN
           predicates:
             - Path=/api/pengembalian/**
+          filters:
+            - StripPrefix=1
 
 eureka:
   client:
