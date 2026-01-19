@@ -20,7 +20,8 @@ pipeline {
                     def mvnHome = tool 'maven-3' 
                     
                     // Daftar folder service - PASTIKAN NAMA FOLDER DI REPO SAMA PERSIS
-                    def services = ['buku', 'anggota', 'peminjaman', 'pengembalian', 'rabbitmq']
+                    def services = ['buku', 'anggota', 'peminjaman', 'pengembalian', 'rabbitmq',
+                        'api-gateaway', 'product', 'pelanggan', 'order']
                     
                     for (service in services) {
                         echo "-------------------------------------------"
