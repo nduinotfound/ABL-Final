@@ -17,7 +17,7 @@ import com.randu.pengembalian.service.PengembalianService;
 import com.randu.pengembalian.vo.ResponseTemplate;
 
 @RestController
-@RequestMapping("/api/pengembalian")
+@RequestMapping("/pengembalian")
 public class PengembalianController {
 
     private static final Logger log = LoggerFactory.getLogger(PengembalianController.class);

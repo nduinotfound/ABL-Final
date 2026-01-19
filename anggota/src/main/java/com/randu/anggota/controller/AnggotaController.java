@@ -16,7 +16,7 @@ import com.randu.anggota.model.Anggota;
 import com.randu.anggota.service.AnggotaService;
 
 @RestController
-@RequestMapping("/api/anggota")
+@RequestMapping("/anggota")
 public class AnggotaController {
 
     private static final Logger log = LoggerFactory.getLogger(AnggotaController.class);

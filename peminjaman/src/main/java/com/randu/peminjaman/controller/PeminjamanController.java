@@ -17,7 +17,7 @@ import com.randu.peminjaman.service.PeminjamanService;
 import com.randu.peminjaman.vo.ResponseTemplate;
 
 @RestController
-@RequestMapping("/api/peminjaman")
+@RequestMapping("/peminjaman")
 public class PeminjamanController {
 
     private static final Logger log = LoggerFactory.getLogger(PeminjamanController.class);
