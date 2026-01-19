@@ -29,6 +29,7 @@ pipeline {
                 }
             }
         }
+    }
     post {
         success { echo 'CI/CD BERHASIL TOTAL!' }
     }
