@@ -60,13 +60,12 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    echo 'Deploying to Docker Containers...'
-                    // Mengupdate container menggunakan docker-compose yang ada di root folder
-                    sh 'docker-compose up -d'
+                    echo 'Cleaning up old containers and deploying...'
+                    // --remove-orphans akan menghapus kontainer lama yang namanya sama
+                    sh 'docker-compose up -d --remove-orphans'
                 }
             }
         }
-    }
 
     post {
         always {
