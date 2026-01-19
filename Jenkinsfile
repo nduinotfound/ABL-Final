@@ -21,11 +21,10 @@ pipeline {
         stage('Docker Build & Deploy') {
             steps {
                 script {
-                    echo 'Force deploying using absolute path...'
-                    // Kita gunakan path lengkap /usr/local/bin/docker-compose 
-                    // supaya tidak ada lagi error 'not found'
-                    sh '/usr/local/bin/docker-compose down || true'
-                    sh '/usr/local/bin/docker-compose up -d --build --remove-orphans --force-recreate'
+                    echo 'Cleaning up and deploying services...'
+                    // Perintah standar sekarang pasti bisa jalan
+                    sh 'docker-compose down || true'
+                    sh 'docker-compose up -d --build --remove-orphans'
                 }
             }
         }
