@@ -1,38 +1,51 @@
-## YAML Template.
----
 server:
-    port: 9000
-    
+  port: 9000
+
 spring:
-    application:
-        name: API-GATEWAY
-    cloud:
-        gateway:
-                server:
-                    webmvc:
-                        routes:
-                            - id: PRODUK-SERVICE
-                              uri: lb://PRODUK
-                              predicates: 
-                                - Path=api/produk/**
-                            - id: PELANGGAN-SERVICE
-                              uri: lb://PELANGGAN
-                              predicates: 
-                                - Path=api/pelanggan/**
-                            - id: ORDER-SERVICE
-                              uri: lb://ORDER
-                              predicates: 
-                                - Path=api/order/**
-                            - id: ANGGOTA-SERVICE
-                              uri: lb://ANGGOTA
-                              predicates: 
-                                - Path=api/anggota/**
-                    
+  application:
+    name: API-GATEWAY
+  cloud:
+    gateway:
+      mvc:
+        routes:
+          # Service Produk & Order (yang sudah ada)
+          - id: PRODUK-SERVICE
+            uri: lb://PRODUK
+            predicates:
+              - Path=/api/produk/**
+          - id: PELANGGAN-SERVICE
+            uri: lb://PELANGGAN
+            predicates:
+              - Path=/api/pelanggan/**
+          - id: ORDER-SERVICE
+            uri: lb://ORDER
+            predicates:
+              - Path=/api/order/**
+
+          # --- TAMBAHKAN SERVICE PERPUSTAKAAN DI SINI ---
+          - id: BUKU-SERVICE
+            uri: lb://BUKU
+            predicates:
+              - Path=/api/buku/**
+          - id: ANGGOTA-SERVICE
+            uri: lb://ANGGOTA
+            predicates:
+              - Path=/api/anggota/**
+          - id: PEMINJAMAN-SERVICE
+            uri: lb://PEMINJAMAN
+            predicates:
+              - Path=/api/peminjaman/**
+          - id: PENGEMBALIAN-SERVICE
+            uri: lb://PENGEMBALIAN
+            predicates:
+              - Path=/api/pengembalian/**
+
 eureka:
-    client:
-        register-with-eureka: true
-        fetch-registry: true
-        service-url:
-            defaultZone: http://localhost:8761/eureka/
-    instance: 
-        hostname: localhost
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      # WAJIB: Gunakan nama service eureka di docker-compose, bukan localhost
+      defaultZone: http://server-eureka:8761/eureka/
+  instance:
+    prefer-ip-address: true
