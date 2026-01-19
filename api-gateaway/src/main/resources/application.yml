@@ -23,6 +23,10 @@ spring:
                               uri: lb://ORDER
                               predicates: 
                                 - Path=api/order/**
+                            - id: ANGGOTA-SERVICE
+                              uri: lb://ANGGOTA
+                              predicates: 
+                                - Path=api/anggota/**
                     
 eureka:
     client:
