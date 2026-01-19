@@ -16,14 +16,18 @@ pipeline {
         stage('Build & Test') {
             steps {
                 script {
-                    // Mendefinisikan lokasi Maven secara manual dari Global Tool Configuration
+                    // Mengambil lokasi Maven dari Global Tool Configuration
                     def mvnHome = tool 'maven-3' 
                     
+                    // Daftar folder service - PASTIKAN NAMA FOLDER DI REPO SAMA PERSIS
                     def services = ['buku', 'anggota', 'peminjaman', 'pengembalian', 'rabbitmq']
+                    
                     for (service in services) {
-                        echo "Building service: ${service}"
+                        echo "-------------------------------------------"
+                        echo "Building JAR for Service: ${service}"
+                        echo "-------------------------------------------"
                         dir(service) {
-                            // Menjalankan Maven menggunakan path absolut hasil dari 'tool'
+                            // Menjalankan Maven menggunakan path absolut
                             sh "${mvnHome}/bin/mvn clean package -DskipTests"
                         }
                     }
@@ -34,6 +38,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 script {
+                    // Mapping folder ke nama image docker
                     def services = [
                         'buku': 'library-buku',
                         'anggota': 'library-anggota',
@@ -43,7 +48,8 @@ pipeline {
                     ]
                     
                     services.each { dirName, imageName ->
-                        echo "Building Docker Image for: ${imageName}"
+                        echo "Building Docker Image: ${imageName}"
+                        // Build image berdasarkan folder masing-masing
                         sh "docker build -t ${imageName}:${DOCKER_IMAGE_TAG} ./${dirName}"
                     }
                 }
@@ -54,7 +60,7 @@ pipeline {
             steps {
                 script {
                     echo 'Deploying to Docker Containers...'
-                    // Menjalankan docker-compose untuk mengupdate container
+                    // Mengupdate container menggunakan docker-compose yang ada di root folder
                     sh 'docker-compose up -d'
                 }
             }
@@ -67,10 +73,12 @@ pipeline {
             cleanWs()
         }
         success {
-            echo 'CI/CD Pipeline Completed Successfully!'
+            echo '---------------------------------------------------'
+            echo 'CI/CD PIPELINE BERHASIL! SEMUA SERVICE TERUPDATE.'
+            echo '---------------------------------------------------'
         }
         failure {
-            echo 'CI/CD Pipeline Failed! Periksa Console Output untuk detail error.'
+            echo 'CI/CD Pipeline Gagal. Periksa detail log di atas.'
         }
     }
 }
