@@ -6,38 +6,36 @@ spring:
     name: API-GATEWAY
   cloud:
     gateway:
-      # Jika kamu menggunakan starter gateway server webmvc, kodenya seperti ini:
-      server:
-        webmvc:
-          routes:
-            - id: PRODUK-SERVICE
-              uri: lb://PRODUK
-              predicates:
-                - Path=/api/produk/**
-            - id: PELANGGAN-SERVICE
-              uri: lb://PELANGGAN
-              predicates:
-                - Path=/api/pelanggan/**
-            - id: ORDER-SERVICE
-              uri: lb://ORDER
-              predicates:
-                - Path=/api/order/**
-            - id: BUKU-SERVICE
-              uri: lb://BUKU
-              predicates:
-                - Path=/api/buku/**
-            - id: ANGGOTA-SERVICE
-              uri: lb://ANGGOTA
-              predicates:
-                - Path=/api/anggota/**
-            - id: PEMINJAMAN-SERVICE
-              uri: lb://PEMINJAMAN
-              predicates:
-                - Path=/api/peminjaman/**
-            - id: PENGEMBALIAN-SERVICE
-              uri: lb://PENGEMBALIAN
-              predicates:
-                - Path=/api/pengembalian/**
+      routes: # Langsung di bawah gateway
+        - id: PRODUK-SERVICE
+          uri: lb://PRODUK
+          predicates:
+            - Path=/api/produk/**
+        - id: PELANGGAN-SERVICE
+          uri: lb://PELANGGAN
+          predicates:
+            - Path=/api/pelanggan/**
+        - id: ORDER-SERVICE
+          uri: lb://ORDER
+          predicates:
+            - Path=/api/order/**
+        - id: BUKU-SERVICE
+          uri: lb://BUKU
+          predicates:
+            - Path=/api/buku/**
+        - id: ANGGOTA-SERVICE
+          uri: lb://ANGGOTA
+          predicates:
+            - Path=/api/anggota/**
+        - id: PEMINJAMAN-SERVICE
+          uri: lb://PEMINJAMAN
+          predicates:
+            - Path=/api/peminjaman/**
+        - id: PENGEMBALIAN-SERVICE
+          uri: lb://PENGEMBALIAN
+          predicates:
+            - Path=/api/pengembalian/**
+
 eureka:
   client:
     register-with-eureka: true
