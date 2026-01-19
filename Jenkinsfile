@@ -21,14 +21,14 @@ pipeline {
         stage('Docker Build & Deploy') {
             steps {
                 script {
-                    echo 'Resetting containers and deploying...'
-                    // Menghapus container lama yang mungkin macet sebelum up lagi
+                    echo 'Cleaning up and force deploying...'
+                    // down menghapus semua yang lama, up menyalakan yang baru
+                    // ini cara paling ampuh untuk menghindari error CONFLICT
                     sh 'docker-compose down || true'
-                    sh 'docker-compose up -d --build'
+                    sh 'docker-compose up -d --build --remove-orphans --force-recreate'
                 }
             }
         }
-    }
     post {
         success { echo 'CI/CD BERHASIL TOTAL!' }
     }
