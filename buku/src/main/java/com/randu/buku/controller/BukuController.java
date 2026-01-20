@@ -16,7 +16,7 @@ import com.randu.buku.model.Buku;
 import com.randu.buku.service.BukuService;
 
 @RestController
-@RequestMapping("/buku")
+@RequestMapping("/api/buku")
 public class BukuController {
 
     private static final Logger log = LoggerFactory.getLogger(BukuController.class);
